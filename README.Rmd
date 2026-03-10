@@ -16,11 +16,8 @@ knitr::opts_chunk$set(
 # melidosData
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/MeLiDosProject/melidosData/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/MeLiDosProject/melidosData/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
-
-<p align="center">
-  <img src="man/figures/logo.png" width="180" alt="melidosData logo"/>
-</p>
 
 `melidosData` provides helper utilities and example assets for MeLiDos REDCap workflows.
 
@@ -52,7 +49,7 @@ codebook <- utils::read.csv(codebook_path, check.names = FALSE)
 sleep <- REDCap_example_sleep
 
 clean_codebook <- REDCap_codebook_prepare(codebook)
-labelled_sleep <- add_col_labels(sleep, clean_codebook)
+labelled_sleep <- REDCap_col_labels(sleep, clean_codebook)
 
 check <- REDCap_coltype_check(clean_codebook, data = labelled_sleep)
 check$ok

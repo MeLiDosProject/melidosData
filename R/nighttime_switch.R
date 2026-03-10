@@ -17,7 +17,7 @@
 #' x <- as.POSIXct(c("2024-01-01 23:00:00", "2024-01-02 01:00:00"), tz = "UTC")
 #' nighttime_switch(x)
 nighttime_switch <- function(datetime,
-                             .fun = median,
+                             .fun = stats::median,
                              cutoff = 12*60*60,
                              hms = TRUE
 ){

@@ -55,3 +55,10 @@
 #' @format A data frame.
 #' @source `inst/ext/example_sleepdiary.csv`.
 "REDCap_example_sleep"
+
+#' Codebook strings to ignore, as it contains HTML formatting
+#'
+#' Codebook strings to ignore, as it contains HTML formatting
+#'
+#' @format A data frame.
+"codebook_strings_to_ignore"

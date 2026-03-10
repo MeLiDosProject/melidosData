@@ -6,8 +6,7 @@
 \usage{
 REDCap_codebook_prepare(
   codebook,
-  strings_to_ignore =
-    "<div class=\\"rich-text-field-label\\">|<span style=\\"font-weight: normal;\\">|<span style=\\"text-decoration: underline;\\">|</span>|<p>|<br />|<em>|</em>|</p>|</div>",
+  strings_to_ignore = codebook_strings_to_ignore,
   form.filter = NULL,
   field.label = `Field Label`,
   form.col = `Form Name`
@@ -22,6 +21,8 @@ REDCap_codebook_prepare(
 \item{form.filter}{Optional character vector of REDCap form names to keep.}
 
 \item{field.label}{Unquoted column containing question labels.}
+
+\item{form.col}{Unquoted column containing the form name (for filtering)}
 }
 \value{
 A cleaned codebook tibble/data frame.

@@ -4,7 +4,12 @@
 \alias{nighttime_switch}
 \title{Summarise times across midnight}
 \usage{
-nighttime_switch(datetime, .fun = median, cutoff = 12 * 60 * 60, hms = TRUE)
+nighttime_switch(
+  datetime,
+  .fun = stats::median,
+  cutoff = 12 * 60 * 60,
+  hms = TRUE
+)
 }
 \arguments{
 \item{datetime}{A date-time vector coercible to \code{POSIXct}.}
