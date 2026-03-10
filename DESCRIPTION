@@ -15,6 +15,7 @@ Imports:
     dplyr,
     hms,
     lubridate,
+    purrr,
     rlang,
     stringr,
     tibble
