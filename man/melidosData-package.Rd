@@ -10,8 +10,20 @@ The package includes helper functions for working with REDCap codebooks and
 records, as well as small example datasets and dictionaries for reproducible
 examples.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://melidosproject.github.io/melidosData/}
+}
+
+}
 \author{
-\strong{Maintainer}: Johannes Zauner \email{johannes.zauner@tum.de}
+\strong{Maintainer}: Johannes Zauner \email{johannes.zauner@tum.de} (\href{https://orcid.org/0000-0003-2171-4566}{ORCID})
+
+Authors:
+\itemize{
+  \item Manuel Spitschan \email{manuel.spitschan@tum.de} (\href{https://orcid.org/0000-0002-8572-9268}{ORCID})
+}
 
 Other contributors:
 \itemize{
