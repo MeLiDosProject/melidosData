@@ -1,22 +1,34 @@
-#' Title
+#' Check data column classes against REDCap expectations
 #'
-#' @param codebook
-#' @param data
-#' @param indicator_POSIXct
-#' @param indicator_date
-#' @param indicator_time
-#' @param indicator_logical
-#' @param indicator_numeric.val_col
-#' @param indicator_numeric.type_col
-#' @param label_col
-#' @param name_col
-#' @param type_col
-#' @param val_col
+#' Uses REDCap codebook metadata to infer expected classes and compares these to
+#' classes in `data`.
 #'
-#' @returns
+#' @param codebook REDCap data dictionary.
+#' @param indicator_POSIXct Indicator in `val_col` identifying datetime fields.
+#' @param indicator_date Pattern used in labels to identify date variables.
+#' @param indicator_time Indicator in `val_col` identifying time-only fields.
+#' @param indicator_logical Indicator in `type_col` identifying logical fields.
+#' @param indicator_numeric.val_col Indicators in `val_col` for numeric fields.
+#' @param indicator_numeric.type_col Indicators in `type_col` for numeric fields.
+#' @param label_col Unquoted codebook label column.
+#' @param name_col Unquoted codebook variable-name column.
+#' @param type_col Unquoted codebook field-type column.
+#' @param val_col Unquoted codebook validation/type-hint column.
+#' @param data Data frame to validate.
+#'
+#' @return A list with `ok`, `summary`, and per-column `details`.
 #' @export
 #'
 #' @examples
+#' dict_path <- system.file("ext", "DataDictionary_sleepdiary.csv",
+#'   package = "melidosData"
+#' )
+#' data_path <- system.file("ext", "example_sleepdiary.csv",
+#'   package = "melidosData"
+#' )
+#' dict <- utils::read.csv(dict_path, check.names = FALSE)
+#' dat <- utils::read.csv(data_path, check.names = FALSE)
+#' REDCap_coltype_check(dict, data = dat)$ok
 REDCap_coltype_check <- function(codebook,
                                  indicator_POSIXct = "datetime_dmy",
                                  indicator_date = "Date",
@@ -29,7 +41,6 @@ REDCap_coltype_check <- function(codebook,
                                  type_col = `Field Type`,
                                  val_col = `Text Validation Type OR Show Slider Number`,
                                  data) {
-  # --- expected columns by rule ---
   should_POSIXct <-
     codebook |>
     dplyr::filter({{ val_col }} %in% indicator_POSIXct) |>
@@ -63,7 +74,8 @@ REDCap_coltype_check <- function(codebook,
   should_time <-
     codebook |>
     dplyr::filter(
-      {{ val_col }} %in% indicator_time) |>
+      {{ val_col }} %in% indicator_time
+    ) |>
     dplyr::pull({{ name_col }}) |>
     unique() |>
     setdiff(should_POSIXct)
@@ -71,27 +83,32 @@ REDCap_coltype_check <- function(codebook,
   should_character <-
     setdiff(
       unique(codebook |> dplyr::pull({{ name_col }})),
-      c(should_numeric, should_POSIXct, should_logical,
-        should_date, should_time, "startdate", "enddate")
+      c(
+        should_numeric, should_POSIXct, should_logical,
+        should_date, should_time, "startdate", "enddate"
+      )
     )
 
   expected_map <- tibble::tribble(
     ~col, ~expected,
-    !!!c(rbind(should_POSIXct,  rep("POSIXct",    length(should_POSIXct))),
-         rbind(should_numeric,  rep("numeric",    length(should_numeric))),
-         rbind(should_logical,  rep("logical",    length(should_logical))),
-         rbind(should_date,     rep("Date",       length(should_date))),
-         rbind(should_time,     rep("time",       length(should_time))),
-         rbind(should_character,rep("character",  length(should_character))))
+    !!!c(
+      rbind(should_POSIXct, rep("POSIXct", length(should_POSIXct))),
+      rbind(should_numeric, rep("numeric", length(should_numeric))),
+      rbind(should_logical, rep("logical", length(should_logical))),
+      rbind(should_date, rep("Date", length(should_date))),
+      rbind(should_time, rep("time", length(should_time))),
+      rbind(should_character, rep("character", length(should_character)))
+    )
   ) |>
-    # The rbind trick can create a matrix; coerce cleanly:
     as.data.frame(stringsAsFactors = FALSE) |>
     tibble::as_tibble() |>
-    mutate(col = .data$col, expected = .data$expected,
-           .keep = "none") |>
+    dplyr::mutate(
+      col = .data$col,
+      expected = .data$expected,
+      .keep = "none"
+    ) |>
     dplyr::distinct()
 
-  # If nothing expected, return a trivial summary
   if (nrow(expected_map) == 0) {
     return(list(
       ok = TRUE,
@@ -104,20 +121,18 @@ REDCap_coltype_check <- function(codebook,
     ))
   }
 
-  # --- helpers ---
   actual_class <- function(x) {
-    # Return the first class; keep simple and stable for reporting
     class(x)[1]
   }
 
   is_expected_type <- function(x, expected) {
     switch(
       expected,
-      "POSIXct"   = inherits(x, "POSIXct"),
-      "numeric"   = is.numeric(x),
-      "logical"   = is.logical(x),
-      "Date"      = inherits(x, "Date"),
-      "time"      = inherits(x, "hms"),
+      "POSIXct" = inherits(x, "POSIXct"),
+      "numeric" = is.numeric(x),
+      "logical" = is.logical(x),
+      "Date" = inherits(x, "Date"),
+      "time" = inherits(x, "hms"),
       "character" = is.character(x),
       FALSE
     )
@@ -125,7 +140,6 @@ REDCap_coltype_check <- function(codebook,
 
   data_names <- names(data)
 
-  # --- build per-column diagnostics ---
   details <- expected_map |>
     dplyr::mutate(
       present = .data$col %in% data_names,
@@ -136,8 +150,11 @@ REDCap_coltype_check <- function(codebook,
       ),
       type_ok = dplyr::if_else(
         present,
-        mapply(\(nm, exp) is_expected_type(data[[nm]], exp),
-               .data$col, .data$expected),
+        mapply(
+          \(nm, exp) is_expected_type(data[[nm]], exp),
+          .data$col,
+          .data$expected
+        ),
         FALSE
       ),
       issue = dplyr::case_when(
@@ -159,7 +176,6 @@ REDCap_coltype_check <- function(codebook,
       .keep = "none"
     )
 
-  # --- grouped missing for convenience ---
   missing_by_expected <- details |>
     dplyr::filter(issue == "missing") |>
     dplyr::group_by(expected) |>
