@@ -17,7 +17,9 @@ Imports:
     rlang,
     stringr,
     tibble
-
 Suggests:
-    testthat (>= 3.0.0)
+    gt,
+    LightLogR,
+    testthat (>= 3.0.0),
+    vroom
 Config/testthat/edition: 3

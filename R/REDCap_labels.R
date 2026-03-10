@@ -14,17 +14,14 @@
 #' @export
 #'
 #' @examples
-#' dict_path <- system.file("ext", "DataDictionary_sleepdiary.csv",
-#'   package = "melidosData"
-#' )
-#' data_path <- system.file("ext", "example_sleepdiary.csv",
+#' dict_path <- system.file("ext", "DataDictionary_chronotype.csv",
 #'   package = "melidosData"
 #' )
 #' dict <- utils::read.csv(dict_path, check.names = FALSE)
-#' dat <- utils::read.csv(data_path, check.names = FALSE)
-#' labelled <- add_col_labels(dat, dict)
-#' attr(labelled[[1]], "label")
-add_col_labels <- function(data,
+#' dict <- REDCap_codebook_prepare(dict,  form.filter = "mctq")
+#' labelled <- REDCap_col_labels(REDCap_example_chronotype, dict)
+#' attr(labelled[[5]], "label")
+REDCap_col_labels <- function(data,
                            lookup,
                            var_col = `Variable / Field Name`,
                            label_col = `Field Label`,

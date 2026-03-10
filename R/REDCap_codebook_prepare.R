@@ -18,16 +18,19 @@
 #' )
 #' codebook <- utils::read.csv(codebook_path, check.names = FALSE)
 #' cleaned <- REDCap_codebook_prepare(codebook)
-#' names(cleaned)
+#' cleaned$`Field Label`
+#' #compate the original one
+#' codebook$`Field Label`
 REDCap_codebook_prepare <- function(codebook,
                                     strings_to_ignore = "<div class=\"rich-text-field-label\">|<span style=\"font-weight: normal;\">|<span style=\"text-decoration: underline;\">|</span>|<p>|<br />|<em>|</em>|</p>|</div>",
                                     form.filter = NULL,
-                                    field.label = `Field Label`
+                                    field.label = `Field Label`,
+                                    form.col = `Form Name`
                                     ) {
   if (!is.null(form.filter)) {
     codebook <-
       codebook |>
-      dplyr::filter(`Form Name` %in% form.filter)
+      dplyr::filter({{ form.col }} %in% form.filter)
   }
 
   codebook |>

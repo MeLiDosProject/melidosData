@@ -20,15 +20,30 @@
 #' @export
 #'
 #' @examples
+#'
+#' library(gt)
 #' dict_path <- system.file("ext", "DataDictionary_sleepdiary.csv",
 #'   package = "melidosData"
 #' )
-#' data_path <- system.file("ext", "example_sleepdiary.csv",
+#' dict <- utils::read.csv(dict_path, check.names = FALSE)
+#'
+#' coltype_check <- REDCap_coltype_check(dict, data = REDCap_example_sleep)
+#' coltype_check$ok
+#' coltype_check$summary
+#' coltype_check$details |> gt()
+#'
+#' dict_path <- system.file("ext", "DataDictionary_chronotype.csv",
 #'   package = "melidosData"
 #' )
 #' dict <- utils::read.csv(dict_path, check.names = FALSE)
-#' dat <- utils::read.csv(data_path, check.names = FALSE)
-#' REDCap_coltype_check(dict, data = dat)$ok
+#' dict <- REDCap_codebook_prepare(dict, form.filter = "mctq")
+#'
+#' coltype_check <- REDCap_coltype_check(dict, data = REDCap_example_chronotype)
+#' coltype_check$ok
+#' coltype_check$summary
+#' coltype_check$details |> gt()
+
+
 REDCap_coltype_check <- function(codebook,
                                  indicator_POSIXct = "datetime_dmy",
                                  indicator_date = "Date",

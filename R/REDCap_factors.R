@@ -51,24 +51,23 @@ parse_radio_levels <- function(levels_string, var_name = NULL, warn = TRUE) {
 #' dict_path <- system.file("ext", "DataDictionary_chronotype.csv",
 #'   package = "melidosData"
 #' )
-#' data_path <- system.file("ext", "example_chronotype.csv",
-#'   package = "melidosData"
-#' )
 #' dict <- utils::read.csv(dict_path, check.names = FALSE)
-#' dat <- utils::read.csv(data_path, check.names = FALSE)
+#' dict <- REDCap_codebook_prepare(dict, form.filter = "mctq")
 #'
+#' chronotype_with_factors <-
 #' REDCap_factors(
-#'   data = dat,
-#'   lookup = dict,
-#'   var_col = `Variable / Field Name`,
-#'   type_col = `Field Type`,
-#'   levels_col = `Choices, Calculations, OR Slider Labels`
+#'   data = REDCap_example_chronotype,
+#'   lookup = dict
 #' )
+#'
+#' chronotype_with_factors$mctq_work_travel
+#' #original:
+#' REDCap_example_chronotype$mctq_work_travel
 REDCap_factors <- function(data,
                            lookup,
-                           var_col = var,
-                           type_col = type,
-                           levels_col = levels,
+                           var_col = `Variable / Field Name`,
+                           type_col = `Field Type`,
+                           levels_col = `Choices, Calculations, OR Slider Labels`,
                            radio_value = c("checkbox", "radio"),
                            warn = TRUE) {
   var_col <- rlang::enquo(var_col)

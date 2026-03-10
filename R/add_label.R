@@ -25,6 +25,7 @@ add_label <- function(data, label) {
 #' dat <- data.frame(a = 1:2, b = 3:4)
 #' labelled <- add_labels(dat, c(a = "Column A"))
 #' attr(labelled$a, "label")
+#' attr(labelled$b, "label")
 add_labels <- function(data, labels) {
   stopifnot(is.data.frame(data))
   stopifnot(is.character(labels) || is.list(labels))
