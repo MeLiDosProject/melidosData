@@ -1,8 +1,11 @@
 Package: melidosData
 Title: Load data from the MeLiDos field study
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: c(
     person("Johannes", "Zauner", , "johannes.zauner@tum.de", role = c("aut", "cre")),
+    person("Manuel", "Spitschan", 
+      email = "manuel.spitschan@tum.de", role = "aut",
+      comment = c(ORCID = "0000-0002-8572-9268")),
     person("European Partnership on Metrology", role = "fnd", comment = "The project (22NRM05 MeLiDos) has received funding from the European Partnership on Metrology, co-financed by the European Union's Horizon Europe Research and Innovation Programme, EURAMET, and the Participating States. Views and opinions expressed are those of the authors and do not necessarily reflect those of the European Union or EURAMET."),
     person("Translational Sensory and Circadian Neuroscience Unit (MPS/TUM/TUMCREATE)", comment = c(URL = "www.tscnlab.org"), role = "cph"))
 Description: In the MeLiDos field study, data were collected in 9 sites and over 150 participants. Data originate from wearable devices collecting personal light exposure at the eye level, chest, and wrist. Questionnaires were collected via REDCap and contain demographic information as well as chronotype, current conditions, sleep diaries, wear logs, and many more. This package makes loading the data from the respective repositories (https://github.com/MeLiDosProject) into R a breeze. It further contains some quality of life functions when handling data from REDCap.
