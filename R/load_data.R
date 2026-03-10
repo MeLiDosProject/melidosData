@@ -1,12 +1,32 @@
-#' Title
+#' Load MeLiDos datasets from project repositories
 #'
-#' @param modality
-#' @param site
+#' `load_data()` is the main entry point of the package. It downloads one
+#' modality from one or more MeLiDos sites and returns either a single data
+#' frame (one site) or a named list with class `"melidos_data"` (multiple sites).
+#'
+#' Use [flatten_data()] to stack multi-site results into one tibble with a
+#' `site` column.
+#'
+#' @param modality Dataset to load.
+#' @param site Site(s) to load. Use `"all"` for all available sites.
 #'
 #' @returns
+#' A data frame when one site is selected, or a `melidos_data` list for multiple
+#' sites.
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' # load one questionnaire modality for all sites
+#' sleep_all <- load_data("sleepdiaries", site = "all")
+#'
+#' # flatten to a single tibble with a site column
+#' sleep_flat <- flatten_data(sleep_all, tz = "UTC")
+#' head(sleep_flat)
+#'
+#' # load one site only (returns a data frame)
+#' sleep_tum <- load_data("sleepdiaries", site = "TUM")
+#' }
 load_data <- function(
     modality = c("light_glasses", "light_chest", "light_wrist",
                  "light_glasses_1minute", "light_chest_1minute", "light_wrist_1minute",
@@ -93,15 +113,30 @@ lookuptable <- c(BAUA = "BroszioEtAl_Dataset_2025",
                  TUM = "HildenEtAl_Dataset_2025",
                  UCR = "Sancho-SalasEtAl_Dataset_2025")
 
-#' Title
+#' Flatten multi-site MeLiDos data into one table
 #'
-#' @param melidos_data
-#' @param tz
+#' `flatten_data()` combines the named list returned by [load_data()] into one
+#' tibble and keeps site provenance in a `site` column.
 #'
-#' @returns
+#' If date-time columns are present (`POSIXct`), their timezone is overwritten
+#' using [lubridate::force_tz()].
+#'
+#' @param melidos_data A list returned by [load_data()] for multiple sites.
+#' @param tz Time zone to enforce for all `POSIXct` columns.
+#'
+#' @returns A tibble with all rows stacked and a `site` column.
 #' @export
 #'
 #' @examples
+#' example_multi_site <- structure(
+#'   list(
+#'     TUM = data.frame(id = 1, bedtime = as.POSIXct("2024-01-01 22:00:00", tz = "UTC")),
+#'     UCR = data.frame(id = 2, bedtime = as.POSIXct("2024-01-02 22:30:00", tz = "UTC"))
+#'   ),
+#'   class = c("melidos_data", "list")
+#' )
+#'
+#' flatten_data(example_multi_site, tz = "Europe/Berlin")
 flatten_data <- function(melidos_data, tz = "UTC"){
   stopifnot("Input must be a list dataset loaded with `load_data()`" =
               inherits(melidos_data, "melidos_data"))

@@ -19,15 +19,13 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/MeLiDosProject/melidosData/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/MeLiDosProject/melidosData/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-`melidosData` provides helper utilities and example assets for MeLiDos REDCap workflows.
+`melidosData` helps you **load MeLiDos data** and then **work with REDCap dictionaries and metadata**.
 
-The package currently focuses on:
-
-- preparing REDCap codebooks,
-- checking column types against codebook expectations,
-- adding variable labels and factors from codebook metadata,
-- handling common time summaries around midnight,
-- shipping small example datasets and dictionaries for reproducible examples.
+- Main workflow:
+  - `load_data()` downloads a modality for one or many sites.
+  - `flatten_data()` combines multi-site lists into one analysis-ready table.
+- Helper workflow:
+  - REDCap functions clean codebooks, add labels/factors, and perform QA checks.
 
 ## Installation
 
@@ -38,36 +36,55 @@ You can install the development version of melidosData from GitHub with:
 pak::pak("MeLiDosProject/melidosData")
 ```
 
-## Example: using included codebooks and datasets
+## Main workflow example
 
-```{r example}
+```{r main-workflow}
 library(melidosData)
 
+# one site -> data frame
+# sleep_tum <- load_data("sleepdiaries", site = "TUM")
+
+# many sites -> `melidos_data` list
+# sleep_all <- load_data("sleepdiaries", site = c("TUM", "UCR"))
+
+# flatten list output for analysis
+# sleep_all_flat <- flatten_data(sleep_all, tz = "UTC")
+```
+
+> Note: examples above are commented to avoid network calls during README rendering.
+
+## Mini vignette: REDCap helper workflow
+
+```{r redecap-vignette}
+# 1) load dictionary and clean labels
 codebook_path <- system.file("ext", "DataDictionary_sleepdiary.csv", package = "melidosData")
 codebook <- utils::read.csv(codebook_path, check.names = FALSE)
+codebook_clean <- REDCap_codebook_prepare(codebook)
 
+# 2) start with example REDCap export
 sleep <- REDCap_example_sleep
 
-clean_codebook <- REDCap_codebook_prepare(codebook)
-labelled_sleep <- REDCap_col_labels(sleep, clean_codebook)
+# 3) attach human-readable labels from dictionary
+sleep_labelled <- REDCap_col_labels(sleep, codebook_clean)
 
-check <- REDCap_coltype_check(clean_codebook, data = labelled_sleep)
+# 4) check expected column types against dictionary metadata
+check <- REDCap_coltype_check(codebook_clean, data = sleep_labelled)
 check$ok
 ```
 
-## Example: factor conversion from REDCap dictionary choices
-
-```{r factors}
+```{r redecap-factors}
+# Optional: convert coded REDCap choice fields to factors
 chrono_dict_path <- system.file("ext", "DataDictionary_chronotype.csv", package = "melidosData")
 chrono_dict <- utils::read.csv(chrono_dict_path, check.names = FALSE)
 
-chrono <- REDCap_factors(
+chrono_factor <- REDCap_factors(
   REDCap_example_chronotype,
   chrono_dict,
   var_col = `Variable / Field Name`,
   type_col = `Field Type`,
-  levels_col = `Choices, Calculations, OR Slider Labels`
+  levels_col = `Choices, Calculations, OR Slider Labels`,
+  warn = FALSE
 )
 
-sapply(chrono, class)[1:5]
+sapply(chrono_factor[1:5], class)
 ```
