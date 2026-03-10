@@ -1,3 +1,3 @@
 # melidosData 1.0.0
 
-* Initial CRAN submission.
+* Initial stable GitHub release
