@@ -7,47 +7,59 @@
 
 <!-- badges: end -->
 
-The goal of melidosData is to …
+<p align="center">
+  <img src="man/figures/logo.png" width="180" alt="melidosData logo"/>
+</p>
+
+`melidosData` provides helper utilities and example assets for MeLiDos REDCap workflows.
+
+The package currently focuses on:
+
+- preparing REDCap codebooks,
+- checking column types against codebook expectations,
+- adding variable labels and factors from codebook metadata,
+- handling common time summaries around midnight,
+- shipping small example datasets and dictionaries for reproducible examples.
 
 ## Installation
 
-You can install the development version of melidosData from
-[GitHub](https://github.com/) with:
+You can install the development version of melidosData from GitHub with:
 
 ``` r
 # install.packages("pak")
 pak::pak("MeLiDosProject/melidosData")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
+## Example: using included codebooks and datasets
 
 ``` r
 library(melidosData)
-## basic example code
+
+codebook_path <- system.file("ext", "DataDictionary_sleepdiary.csv", package = "melidosData")
+codebook <- utils::read.csv(codebook_path, check.names = FALSE)
+
+sleep <- REDCap_example_sleep
+
+clean_codebook <- REDCap_codebook_prepare(codebook)
+labelled_sleep <- add_col_labels(sleep, clean_codebook)
+
+check <- REDCap_coltype_check(clean_codebook, data = labelled_sleep)
+check$ok
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+## Example: factor conversion from REDCap dictionary choices
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+chrono_dict_path <- system.file("ext", "DataDictionary_chronotype.csv", package = "melidosData")
+chrono_dict <- utils::read.csv(chrono_dict_path, check.names = FALSE)
+
+chrono <- REDCap_factors(
+  REDCap_example_chronotype,
+  chrono_dict,
+  var_col = `Variable / Field Name`,
+  type_col = `Field Type`,
+  levels_col = `Choices, Calculations, OR Slider Labels`
+)
+
+sapply(chrono, class)[1:5]
 ```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
