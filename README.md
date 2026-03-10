@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# melidosData
+# melidosData <a href="https://melidosproject.github.io/melidosData/"><img src="man/figures/logo.png" align="right" height="128" alt="melidosData website" /></a>
 
 <!-- badges: start -->
 

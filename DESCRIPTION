@@ -27,3 +27,4 @@ Suggests:
     testthat (>= 3.0.0),
     vroom
 Config/testthat/edition: 3
+URL: https://melidosproject.github.io/melidosData/
