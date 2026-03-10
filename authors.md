@@ -4,6 +4,9 @@
 
 - **Johannes Zauner**. Author, maintainer.
 
+- **Manuel Spitschan**. Author.
+  [](https://orcid.org/0000-0002-8572-9268)
+
 - **European Partnership on Metrology**. Funder.  
   The project (22NRM05 MeLiDos) has received funding from the European
   Partnership on Metrology, co-financed by the European Union's Horizon
@@ -18,14 +21,14 @@
 
 ## Citation
 
-Zauner J (2026). *melidosData: Load data from the MeLiDos field study*.
-R package version 0.0.0.9000,
+Zauner J, Spitschan M (2026). *melidosData: Load data from the MeLiDos
+field study*. R package version 1.0.0,
 <https://melidosproject.github.io/melidosData/>.
 
     @Manual{,
       title = {melidosData: Load data from the MeLiDos field study},
-      author = {Johannes Zauner},
+      author = {Johannes Zauner and Manuel Spitschan},
       year = {2026},
-      note = {R package version 0.0.0.9000},
+      note = {R package version 1.0.0},
       url = {https://melidosproject.github.io/melidosData/},
     }
