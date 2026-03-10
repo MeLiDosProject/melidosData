@@ -3,6 +3,9 @@
 \name{load_data}
 \alias{load_data}
 \title{Load MeLiDos datasets from project repositories}
+\source{
+https://github.com/MeLiDosProject
+}
 \usage{
 load_data(
   modality = c("light_glasses", "light_chest", "light_wrist", "light_glasses_1minute",
@@ -31,6 +34,8 @@ frame (one site) or a named list with class \code{"melidos_data"} (multiple site
 \details{
 Use \code{\link[=flatten_data]{flatten_data()}} to stack multi-site results into one tibble with a
 \code{site} column.
+
+See the README of the package for a description of sites and modalities.
 }
 \examples{
 \dontrun{

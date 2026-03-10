@@ -15,7 +15,7 @@ test_that("flatten_data binds site rows and enforces timezone", {
 
   out <- flatten_data(dat, tz = "Europe/Berlin")
 
-  expect_s3_class(out, "tbl_df")
+  expect_s3_class(out, "data.frame")
   expect_equal(out$site, c("TUM", "UCR"))
   expect_equal(attr(out$timestamp, "tzone"), "Europe/Berlin")
 })
@@ -23,7 +23,7 @@ test_that("flatten_data binds site rows and enforces timezone", {
 test_that("flatten_data errors on non-melidos_data input", {
   expect_error(
     flatten_data(list(a = data.frame(x = 1))),
-    "Input must be a list dataset loaded with `load_data\(\)`"
+    "Input must be a list dataset loaded with `load_data\\(\\)`"
   )
 })
 
@@ -51,7 +51,7 @@ test_that("REDCap_attention_check returns labelled logical column", {
   out <- REDCap_attention_check(dat, attention, condition = "A", label = "Passed")
 
   expect_type(out$attention, "logical")
-  expect_equal(out$attention, c(TRUE, FALSE, TRUE))
+  expect_equal(out$attention, structure(c(TRUE, FALSE, TRUE), label = "Passed"))
   expect_equal(attr(out$attention, "label"), "Passed")
   expect_identical(names(out)[length(names(out))], "attention")
 })

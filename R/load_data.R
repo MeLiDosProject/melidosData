@@ -7,6 +7,8 @@
 #' Use [flatten_data()] to stack multi-site results into one tibble with a
 #' `site` column.
 #'
+#' See the README of the package for a description of sites and modalities.
+#'
 #' @param modality Dataset to load.
 #' @param site Site(s) to load. Use `"all"` for all available sites.
 #'
@@ -14,6 +16,7 @@
 #' A data frame when one site is selected, or a `melidos_data` list for multiple
 #' sites.
 #' @export
+#' @source https://github.com/MeLiDosProject
 #'
 #' @examples
 #' \dontrun{
@@ -45,10 +48,11 @@ load_data <- function(
               "RISE", "THUAS", "TUM", "UCR")
   }
 
-  if(modality %in% c("light_chest", "light_chest_1minute")) {
+  if(modality %in% c("light_chest", "light_chest_1minute",
+                     "light_wrist", "light_wrist_1minute")) {
     if("MPI" %in% site) {
       site <- setdiff(site, "MPI")
-      message("Remove site MPI, as there were no chest-worn devices")
+      message("Remove site MPI, as there were no chest-worn devices, and a different type of wrist-worn devices")
     }
   }
 

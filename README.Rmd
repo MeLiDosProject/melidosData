@@ -19,11 +19,13 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/MeLiDosProject/melidosData/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/MeLiDosProject/melidosData/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-`melidosData` helps you **load MeLiDos data** and then **work with REDCap dictionaries and metadata**.
+`melidosData` helps you **load data from the [MeLiDos field study](https://github.com/MeLiDosProject)**. It also contains helpers to **work with REDCap dictionaries and metadata**.
+
+The [MeLiDos field study](https://github.com/MeLiDosProject) datasets contain wearable data for personal light exposure at the eye, chest, and wrist level for **181 participants across 9 sites and 7 countries, capturing 1080 participant days (≥80% of available data)**. Through a host of questionnaires at screening and discharge time, ecological momentary assessment, diaries, and logs, extensive auxiliary data are available.
 
 - Main workflow:
   - `load_data()` downloads a modality for one or many sites.
-  - `flatten_data()` combines multi-site lists into one analysis-ready table.
+  - `flatten_data()` combines multi-site lists into one analysis-ready table, including a shared timezone.
 - Helper workflow:
   - REDCap functions clean codebooks, add labels/factors, and perform QA checks.
 
@@ -38,20 +40,78 @@ pak::pak("MeLiDosProject/melidosData")
 
 ## Main workflow example
 
-```{r main-workflow}
+```{r main-workflow, warning =FALSE, message = FALSE}
 library(melidosData)
+library(LightLogR) #for visualization
+library(dplyr) #for data manipulation
 
 # one site -> data frame
-# sleep_tum <- load_data("sleepdiaries", site = "TUM")
+sleep_tum <- load_data("sleepdiaries", site = "TUM")
+sleep_tum |> select(Id, sleep, wake) |> head()
 
 # many sites -> `melidos_data` list
-# sleep_all <- load_data("sleepdiaries", site = c("TUM", "UCR"))
+sleep_all <- load_data("sleepdiaries", site = c("TUM", "UCR"))
+sleep_all |> summary()
 
 # flatten list output for analysis
-# sleep_all_flat <- flatten_data(sleep_all, tz = "UTC")
+sleep_all_flat <- flatten_data(sleep_all, tz = "UTC")
+sleep_all_flat |> 
+  select(site, Id, sleep, wake) |> 
+  group_by(site) |> 
+  slice_head(n=3)
 ```
 
-> Note: examples above are commented to avoid network calls during README rendering.
+
+## Modalities
+
+The following list of modalities contains the modality codes to be used in `load_data()`.
+
+### Light exposure:
+
+- *light_glasses*, *light_chest*, *light_wrist*: personal light exposure datasets, captured with `ActLumus` devices, recorded in 10 second intervals for the eye-level, chest-level, and wrist-level position. Data are minimally checked after import (range, explicit gaps, device malfunctions, time shifts).
+
+- *light_glasses_1minute*, *light_chest_1minute*, *light_wrist_1minute*: as above, but aggregated to 1-minute intervals. Furthermore, days with less than 80% of data coverage are removed. This makes the datasets both faster to download, computationally easier to work with, and also more stable to calculate light exposure metrics
+
+### Questionnaires (screening and discharge):
+
+- *health*: Lifestyle and health
+- *demographics*: Demographics
+- *chronotype*: Chronotype (MCTQ, MEQ)
+- *accectability*: Light glasses acceptability
+- *ase*: Sleep environment (ASE)
+- *evaluation*: Evaluation of study by participants
+- *leba*: Light exposure behavior (LEBA)
+- *vlsq8*: Light sensitivity (VLSQ-8)
+
+### Diaries (morning or evening):
+
+- *sleepdiaries*: Sleepdiary
+- *lightexposurediary*: Light exposure diary (mH-LEA) and activity diary
+- *exercisediary*: Exercise diary
+- *wellbeingdiary*: Wellbeing diary (WHO-5)
+
+### Logs (when required):
+
+- *wearlog*: Wear/Non-wear log
+- *experiencelog*: Experience log
+
+### Ecological momentary assessment (4 times per day):
+
+- *currentconditions*: Current light, mood, and alertness
+
+## Sites
+
+The nine sites are centered on universities and research institutes. The packages contains relevant metadata for these sites:
+
+```{r}
+melidos_countries
+melidos_cities
+melidos_colors
+melidos_coordinates
+melidos_tzs
+```
+
+More information is found under the full repository of each dataset on the [project page](https://github.com/MeLiDosProject).
 
 ## Mini vignette: REDCap helper workflow
 
@@ -60,31 +120,40 @@ library(melidosData)
 codebook_path <- system.file("ext", "DataDictionary_sleepdiary.csv", package = "melidosData")
 codebook <- utils::read.csv(codebook_path, check.names = FALSE)
 codebook_clean <- REDCap_codebook_prepare(codebook)
+codebook_clean |> names()
 
 # 2) start with example REDCap export
 sleep <- REDCap_example_sleep
+sleep$sleepquality #original
 
-# 3) attach human-readable labels from dictionary
-sleep_labelled <- REDCap_col_labels(sleep, codebook_clean)
-
-# 4) check expected column types against dictionary metadata
-check <- REDCap_coltype_check(codebook_clean, data = sleep_labelled)
+# 3) check expected column types against dictionary metadata
+check <- REDCap_coltype_check(codebook_clean, data = sleep)
 check$ok
+check$details
+
+# 4) convert factor numbers into factors
+sleep_factors <- REDCap_factors(sleep, codebook_clean)
+sleep_factors$sleepquality #factors
+
+# 5) attach human-readable labels from dictionary
+sleep_labelled <- REDCap_col_labels(sleep_factors, codebook_clean)
+sleep_labelled$sleepquality #factors with label
+
+#6) add arbitrary labels, e.g. for computed variables
+sleep_labelled <- sleep_labelled |> mutate(actual_sleep = sleep + sleepdelay*60)
+sleep_labelled$actual_sleep |> attr("label") # incorrect label (taken from sleep)
+
+sleep_labelled <- sleep_labelled |> add_labels(c(actual_sleep = "Time of sleep including sleepdelay (calculated)"))
+sleep_labelled$actual_sleep |> attr("label") #new label
 ```
 
-```{r redecap-factors}
-# Optional: convert coded REDCap choice fields to factors
-chrono_dict_path <- system.file("ext", "DataDictionary_chronotype.csv", package = "melidosData")
-chrono_dict <- utils::read.csv(chrono_dict_path, check.names = FALSE)
+> Note: labels are volatile in R. If they are lost, e.g. after data transformation, the functions can be reexecuted.
 
-chrono_factor <- REDCap_factors(
-  REDCap_example_chronotype,
-  chrono_dict,
-  var_col = `Variable / Field Name`,
-  type_col = `Field Type`,
-  levels_col = `Choices, Calculations, OR Slider Labels`,
-  warn = FALSE
-)
+## About the MeLiDos project
 
-sapply(chrono_factor[1:5], class)
-```
+[*MeLiDos*](https://www.melidos.eu) is a joint, [EURAMET](https://www.euramet.org)-funded project involving sixteen partners across Europe, aimed at developing a metrology and a standard workflow for wearable light logger data and optical radiation dosimeters. Its primary contributions towards fostering FAIR data include the development of a common file format, robust metadata descriptors, and an accompanying open-source software ecosystem.
+
+[![](man/figures/Metrology_Partnership_LOGO.jpg){width="282"}](https://www.euramet.org) ![](man/figures/Co-Funded-By-the-EU.png){width="288"}
+
+The project (22NRM05 MeLiDos) has received funding from the European Partnership on Metrology, co-financed from the European Union's Horizon Europe Research and Innovation Programme and by the Participating States. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or EURAMET. Neither the European Union nor the granting authority can be held responsible for them.
+
