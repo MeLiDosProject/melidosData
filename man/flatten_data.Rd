@@ -2,13 +2,34 @@
 % Please edit documentation in R/load_data.R
 \name{flatten_data}
 \alias{flatten_data}
-\title{Title}
+\title{Flatten multi-site MeLiDos data into one table}
 \usage{
 flatten_data(melidos_data, tz = "UTC")
 }
 \arguments{
-\item{tz}{}
+\item{melidos_data}{A list returned by \code{\link[=load_data]{load_data()}} for multiple sites.}
+
+\item{tz}{Time zone to enforce for all \code{POSIXct} columns.}
+}
+\value{
+A tibble with all rows stacked and a \code{site} column.
 }
 \description{
-Title
+\code{flatten_data()} combines the named list returned by \code{\link[=load_data]{load_data()}} into one
+tibble and keeps site provenance in a \code{site} column.
+}
+\details{
+If date-time columns are present (\code{POSIXct}), their timezone is overwritten
+using \code{\link[lubridate:force_tz]{lubridate::force_tz()}}.
+}
+\examples{
+example_multi_site <- structure(
+  list(
+    TUM = data.frame(id = 1, bedtime = as.POSIXct("2024-01-01 22:00:00", tz = "UTC")),
+    UCR = data.frame(id = 2, bedtime = as.POSIXct("2024-01-02 22:30:00", tz = "UTC"))
+  ),
+  class = c("melidos_data", "list")
+)
+
+flatten_data(example_multi_site, tz = "Europe/Berlin")
 }
