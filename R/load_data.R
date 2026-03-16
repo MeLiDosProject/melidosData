@@ -41,8 +41,8 @@ load_data <- function(
              "RISE", "THUAS", "TUM", "UCR")
 ) {
 
-  modality <- match.arg(modality)
-  site <- match.arg(site, several.ok = TRUE)
+  modality <- rlang::arg_match(modality)
+  site <- rlang::arg_match(site, multiple = TRUE)
   if("all" %in% site) {
     site <- c("BAUA", "FUSPCEU", "IZTECH", "KNUST", "MPI",
               "RISE", "THUAS", "TUM", "UCR")
