@@ -10,9 +10,9 @@ https://github.com/MeLiDosProject
 load_data(
   modality = c("light_glasses", "light_chest", "light_wrist", "light_glasses_1minute",
     "light_chest_1minute", "light_wrist_1minute", "acceptability", "ase", "chronotype",
-    "demographics", "evaluation", "health", "leba", "vlsq8", "currentconditions",
-    "exercisediary", "experiencelog", "lightexposurediary", "sleepdiaries", "wearlog",
-    "wellbeingdiary"),
+    "demographics", "evaluation", "health", "leba", "trial_times", "vlsq8",
+    "currentconditions", "exercisediary", "experiencelog", "lightexposurediary",
+    "sleepdiaries", "wearlog", "wellbeingdiary"),
   site = c("all", "BAUA", "FUSPCEU", "IZTECH", "KNUST", "MPI", "RISE", "THUAS", "TUM",
     "UCR")
 )
