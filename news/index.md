@@ -5,6 +5,9 @@
 - [`load_data()`](https://melidosproject.github.io/melidosData/reference/load_data.md):
   partial matching of arguments no longer works
 
+- [`load_data()`](https://melidosproject.github.io/melidosData/reference/load_data.md):
+  supports `trial_times` modality.
+
 ## melidosData 1.0.0
 
 - Initial stable GitHub release
