@@ -330,6 +330,9 @@ held responsible for them.
 - [`codebook_strings_to_ignore`](https://melidosproject.github.io/melidosData/reference/codebook_strings_to_ignore.md)
   : Codebook strings to ignore, as it contains HTML formatting
 
+- [`extract_labels()`](https://melidosproject.github.io/melidosData/reference/extract_labels.md)
+  : Extract labels from a list of objects
+
 - [`flatten_data()`](https://melidosproject.github.io/melidosData/reference/flatten_data.md)
   : Flatten multi-site MeLiDos data into one table
 

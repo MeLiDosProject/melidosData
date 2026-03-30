@@ -7,7 +7,7 @@ into one tibble and keeps site provenance in a `site` column.
 ## Usage
 
 ``` r
-flatten_data(melidos_data, tz = "UTC")
+flatten_data(melidos_data, tz = "UTC", label_from = 1)
 ```
 
 ## Arguments
@@ -21,6 +21,10 @@ flatten_data(melidos_data, tz = "UTC")
 - tz:
 
   Time zone to enforce for all `POSIXct` columns.
+
+- label_from:
+
+  indice of the dataset that is used to apply labels to the output.
 
 ## Value
 
@@ -44,7 +48,9 @@ example_multi_site <- structure(
 )
 
 flatten_data(example_multi_site, tz = "Europe/Berlin")
-#>   site id             bedtime
-#> 1  TUM  1 2024-01-01 22:00:00
-#> 2  UCR  2 2024-01-02 22:30:00
+#> # A tibble: 2 × 3
+#>   site     id bedtime            
+#>   <chr> <dbl> <dttm>             
+#> 1 TUM       1 2024-01-01 22:00:00
+#> 2 UCR       2 2024-01-02 22:30:00
 ```
