@@ -1,3 +1,5 @@
+# melidosData 1.0.2
+
 # melidosData 1.0.1
 
 * `load_data()`: partial matching of arguments no longer works

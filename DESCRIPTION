@@ -1,6 +1,6 @@
 Package: melidosData
 Title: Load data from the MeLiDos field study
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: c(
     person("Johannes", "Zauner", 
       email = "johannes.zauner@tum.de", role = c("aut", "cre"),
