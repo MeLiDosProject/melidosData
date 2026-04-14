@@ -56,5 +56,5 @@ flatten_data <- function(melidos_data, tz = "UTC", label_from = 1){
     ) |>
     purrr::list_rbind(names_to = "site")
 
-  flattened_data |> add_labels(labels_original)
+  flattened_data |> add_labels(labels_original[[1]])
 }
