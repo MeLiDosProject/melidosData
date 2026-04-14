@@ -1,5 +1,10 @@
 # Changelog
 
+## melidosData 1.0.3
+
+- [`flatten_data()`](https://melidosproject.github.io/melidosData/reference/flatten_data.md):
+  fixed a bug that kept the labels from being displayed
+
 ## melidosData 1.0.2
 
 - [`flatten_data()`](https://melidosproject.github.io/melidosData/reference/flatten_data.md):
