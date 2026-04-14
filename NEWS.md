@@ -1,3 +1,7 @@
+# melidosData 1.0.3
+
+* `flatten_data()`: fixed a bug that kept the labels from being displayed
+
 # melidosData 1.0.2
 
 * `flatten_data()`: keeps labels intact and warns if labels vary across sites
