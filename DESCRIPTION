@@ -1,6 +1,6 @@
 Package: melidosData
 Title: Load Data from the MeLiDos Field Study
-Version: 1.0.3
+Version: 1.0.4
 Authors@R: c(
     person("Johannes", "Zauner", 
       email = "johannes.zauner@tum.de", role = c("aut", "cre"),
@@ -34,4 +34,3 @@ Suggests:
 Config/testthat/edition: 3
 URL: https://melidosproject.github.io/melidosData/, https://github.com/MeLiDosProject/melidosData, https://github.com/MeLiDosProject
 BugReports: https://github.com/MeLiDosProject/melidosData/issues
-

@@ -1,3 +1,5 @@
+# melidosData 1.0.4
+
 * `load_data()`: closes connections after downloading. This could be an issue when downloading many modalities
 
 # melidosData 1.0.3
