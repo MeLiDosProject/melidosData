@@ -90,21 +90,37 @@ load_data <- function(
   }
 
   loaded_data <-
-  url_strings |>
-  purrr::map(
-    \(x) {
-      try(load(url(x)))
-      if(exists(modality)) {
-        get(modality)
-        } else return()
-      },
-    .progress = paste0("loading modality: ", modality)
-  )
+    url_strings |>
+    purrr::map(
+      \(x) load_remote_rdata(x, modality),
+      .progress = paste0("loading modality: ", modality)
+    )
 
   if(length(loaded_data) == 1) return(loaded_data[[1]]) else {
   class(loaded_data) <- c("melidos_data", class(loaded_data))
   loaded_data
   }
+}
+
+
+load_remote_rdata <- function(url_string, object_name) {
+  con <- url(url_string)
+  on.exit(close(con), add = TRUE)
+
+  data_env <- rlang::env()
+  loaded <- tryCatch(
+    {
+      load(con, envir = data_env)
+      TRUE
+    },
+    error = function(...) FALSE
+  )
+
+  if(!loaded || !rlang::env_has(data_env, object_name)) {
+    return(NULL)
+  }
+
+  data_env[[object_name]]
 }
 
 lookuptable <- c(BAUA = "BroszioEtAl_Dataset_2025",
