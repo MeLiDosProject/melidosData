@@ -1,5 +1,11 @@
 # Changelog
 
+## melidosData 1.0.4
+
+- [`load_data()`](https://melidosproject.github.io/melidosData/reference/load_data.md):
+  closes connections after downloading. This could be an issue when
+  downloading many modalities
+
 ## melidosData 1.0.3
 
 - [`flatten_data()`](https://melidosproject.github.io/melidosData/reference/flatten_data.md):
