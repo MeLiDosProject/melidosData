@@ -10,6 +10,12 @@ Useful links:
 
 - <https://melidosproject.github.io/melidosData/>
 
+- <https://github.com/MeLiDosProject/melidosData>
+
+- <https://github.com/MeLiDosProject>
+
+- Report bugs at <https://github.com/MeLiDosProject/melidosData/issues>
+
 ## Author
 
 **Maintainer**: Johannes Zauner <johannes.zauner@tum.de>
