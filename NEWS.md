@@ -1,3 +1,5 @@
+* `load_data()`: closes connections after downloading. This could be an issue when downloading many modalities
+
 # melidosData 1.0.3
 
 * `flatten_data()`: fixed a bug that kept the labels from being displayed

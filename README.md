@@ -1,34 +1,66 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# melidosData <a href="https://melidosproject.github.io/melidosData/"><img src="man/figures/logo.png" align="right" height="128" alt="melidosData website" /></a>
+# melidosData <a href="https://melidosproject.github.io/melidosData/"><img src="man/figures/logo.png" alt="melidosData website" align="right" height="128"/></a>
 
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/MeLiDosProject/melidosData/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/MeLiDosProject/melidosData/actions/workflows/R-CMD-check.yaml)
+
 <!-- badges: end -->
 
 `melidosData` helps you **load data from the [MeLiDos field
 study](https://github.com/MeLiDosProject)**. It also contains helpers to
 **work with REDCap dictionaries and metadata**.
 
+## The project
+
 The [MeLiDos field study](https://github.com/MeLiDosProject) datasets
 contain wearable data for personal light exposure at the eye, chest, and
-wrist level for **181 participants across 9 sites and 7 countries,
-capturing 1080 participant days (≥80% of available data)**. Through a
-host of questionnaires at screening and discharge time, ecological
-momentary assessment, diaries, and logs, extensive auxiliary data are
-available.
+wrist level for **191 participants across 9 sites and 7 countries,
+capturing 1480 participant days of annotated data**. Through a host of
+questionnaires at screening and discharge time, ecological momentary
+assessment, diaries, and logs, extensive auxiliary data are available.
 
 - Main workflow:
   - `load_data()` downloads a modality for one or many sites.
   - `flatten_data()` combines multi-site lists into one analysis-ready
     table, including a shared timezone.
-- Helper workflow:
-  - REDCap functions clean codebooks, add labels/factors, and perform QA
-    checks.
+
+<figure>
+<img src="man/figures/map.png" style="width:80.0%"
+alt="Measurement sites in the MeLiDos project" />
+<figcaption aria-hidden="true">Measurement sites in the MeLiDos
+project</figcaption>
+</figure>
+
+| Institution (site Abbr.) | City | Country | Repository | DOI |
+|----|----|----|----|----|
+| RISE | Borås | Sweden | [NilssonTengelinEtAl_Dataset_2026](https://github.com/MeLiDosProject/NilssonTengelinEtAl_Dataset_2026) | 10.5281/zenodo.18925834 |
+| THUAS | Delft | The Netherlands | [AertsEtAl_Dataset_2025](https://github.com/MeLiDosProject/AertsEtAl_Dataset_2025) | 10.5281/zenodo.17979893 |
+| BAUA | Dortmund | Germany | [BroszioEtAl_Dataset_2025](https://github.com/MeLiDosProject/BroszioEtAl_Dataset_2025) | 10.5281/zenodo.18111232 |
+| MPI | Tübingen | Germany | [GuidolinEtAl_Dataset_2025](https://github.com/MeLiDosProject/GuidolinEtAl_Dataset_2025) | 10.5281/zenodo.16895188 |
+| TUM | Munich | Germany | [HildenEtAl_Dataset_2025](https://github.com/MeLiDosProject/HildenEtAl_Dataset_2025) | 10.5281/zenodo.16893901 |
+| FUSPCEU | Madrid | Spain | [BaezaEtAl_Dataset_2025](https://github.com/MeLiDosProject/BaezaEtAl_Dataset_2025) | 10.5281/zenodo.16834951 |
+| IZTECH | Izmir | Turkey | [DidikogluEtAl_Dataset_2025](https://github.com/MeLiDosProject/DidikogluEtAl_Dataset_2025) | 10.5281/zenodo.16568109 |
+| UCR | San José | Costa Rica | [Sancho-SalasEtAl_Dataset_2025](https://github.com/MeLiDosProject/Sancho-SalasEtAl_Dataset_2025) | 10.5281/zenodo.17289456 |
+| KNUST | Kumasi | Ghana | [AkuffoEtAl_Dataset_2025](https://github.com/MeLiDosProject/AkuffoEtAl_Dataset_2025) | 10.5281/zenodo.15576731 |
+
+Overview of the available sites in the package
+
+<figure>
+<img src="man/figures/2026-03-30_MeLiDos_Protocol.png"
+alt="Field study protocol" />
+<figcaption aria-hidden="true">Field study protocol</figcaption>
+</figure>
 
 ## Installation
+
+You can install the CRAN version of melidosData with:
+
+``` r
+install.packages("melidosData")
+```
 
 You can install the development version of melidosData from GitHub with:
 
@@ -50,12 +82,12 @@ sleep_tum |> select(Id, sleep, wake) |> head()
 #> # A tibble: 6 × 3
 #>   Id       sleep               wake               
 #>   <chr>    <dttm>              <dttm>             
-#> 1 TUM_S002 2024-06-03 01:15:00 2024-06-03 07:15:00
-#> 2 TUM_S002 2024-06-02 01:50:00 2024-06-02 11:25:00
-#> 3 TUM_S002 2024-06-01 02:10:00 2024-06-01 11:00:00
-#> 4 TUM_S002 2024-05-31 00:00:00 2024-05-31 09:15:00
-#> 5 TUM_S002 2024-05-30 01:15:00 2024-05-30 06:45:00
-#> 6 TUM_S002 2024-05-29 01:15:00 2024-05-29 08:30:00
+#> 1 TUM_S001 2024-05-14 00:25:00 2024-05-14 09:38:00
+#> 2 TUM_S001 2024-05-15 00:17:00 2024-05-15 08:00:00
+#> 3 TUM_S001 2024-05-16 00:32:00 2024-05-16 10:00:00
+#> 4 TUM_S001 2024-05-17 01:25:00 2024-05-17 09:30:00
+#> 5 TUM_S001 2024-05-18 00:35:00 2024-05-18 09:30:00
+#> 6 TUM_S001 2024-05-19 05:32:00 2024-05-19 11:30:00
 
 # many sites -> `melidos_data` list
 sleep_all <- load_data("sleepdiaries", site = c("TUM", "UCR"))
@@ -74,9 +106,9 @@ sleep_all_flat |>
 #> # Groups:   site [2]
 #>   site  Id       sleep               wake               
 #>   <chr> <chr>    <dttm>              <dttm>             
-#> 1 TUM   TUM_S002 2024-06-03 01:15:00 2024-06-03 07:15:00
-#> 2 TUM   TUM_S002 2024-06-02 01:50:00 2024-06-02 11:25:00
-#> 3 TUM   TUM_S002 2024-06-01 02:10:00 2024-06-01 11:00:00
+#> 1 TUM   TUM_S001 2024-05-14 00:25:00 2024-05-14 09:38:00
+#> 2 TUM   TUM_S001 2024-05-15 00:17:00 2024-05-15 08:00:00
+#> 3 TUM   TUM_S001 2024-05-16 00:32:00 2024-05-16 10:00:00
 #> 4 UCR   UCR_S001 2025-06-16 21:35:00 2025-06-17 06:36:00
 #> 5 UCR   UCR_S001 2025-06-17 21:35:00 2025-06-18 06:30:00
 #> 6 UCR   UCR_S001 2025-06-18 22:25:00 2025-06-19 06:40:00

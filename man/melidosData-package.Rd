@@ -14,6 +14,9 @@ examples.
 Useful links:
 \itemize{
   \item \url{https://melidosproject.github.io/melidosData/}
+  \item \url{https://github.com/MeLiDosProject/melidosData}
+  \item \url{https://github.com/MeLiDosProject}
+  \item Report bugs at \url{https://github.com/MeLiDosProject/melidosData/issues}
 }
 
 }

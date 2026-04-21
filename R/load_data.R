@@ -48,6 +48,13 @@ load_data <- function(
               "RISE", "THUAS", "TUM", "UCR")
   }
 
+  if(modality %in% c("health")) {
+    if("MPI" %in% site) {
+      site <- setdiff(site, "MPI")
+      message("Remove site MPI, as there was no health-related questionnaire")
+    }
+  }
+
   if(modality %in% c("light_chest", "light_chest_1minute",
                      "light_wrist", "light_wrist_1minute")) {
     if("MPI" %in% site) {
