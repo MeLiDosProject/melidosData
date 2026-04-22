@@ -73,5 +73,5 @@ dict <- REDCap_codebook_prepare(dict, form.filter = "mctq")
 coltype_check <- REDCap_coltype_check(dict, data = REDCap_example_chronotype)
 coltype_check$ok
 coltype_check$summary
-coltype_check$details |> gt()
+coltype_check$details
 }

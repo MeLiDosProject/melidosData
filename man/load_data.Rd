@@ -38,9 +38,8 @@ Use \code{\link[=flatten_data]{flatten_data()}} to stack multi-site results into
 See the README of the package for a description of sites and modalities.
 }
 \examples{
-\dontrun{
-# load one questionnaire modality for all sites
-sleep_all <- load_data("sleepdiaries", site = "all")
+# load one questionnaire modality for two sites
+sleep_all <- load_data("sleepdiaries", site = c("TUM", "RISE"))
 
 # flatten to a single tibble with a site column
 sleep_flat <- flatten_data(sleep_all, tz = "UTC")
@@ -48,5 +47,4 @@ head(sleep_flat)
 
 # load one site only (returns a data frame)
 sleep_tum <- load_data("sleepdiaries", site = "TUM")
-}
 }

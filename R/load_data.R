@@ -19,9 +19,8 @@
 #' @source https://github.com/MeLiDosProject
 #'
 #' @examples
-#' \dontrun{
-#' # load one questionnaire modality for all sites
-#' sleep_all <- load_data("sleepdiaries", site = "all")
+#' # load one questionnaire modality for two sites
+#' sleep_all <- load_data("sleepdiaries", site = c("TUM", "RISE"))
 #'
 #' # flatten to a single tibble with a site column
 #' sleep_flat <- flatten_data(sleep_all, tz = "UTC")
@@ -29,7 +28,6 @@
 #'
 #' # load one site only (returns a data frame)
 #' sleep_tum <- load_data("sleepdiaries", site = "TUM")
-#' }
 load_data <- function(
     modality = c("light_glasses", "light_chest", "light_wrist",
                  "light_glasses_1minute", "light_chest_1minute", "light_wrist_1minute",
