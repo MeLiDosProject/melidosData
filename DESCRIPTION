@@ -1,6 +1,6 @@
 Package: melidosData
 Title: Load Data from the MeLiDos Field Study
-Version: 1.0.4
+Version: 1.0.5
 Authors@R: c(
     person("Johannes", "Zauner", 
       email = "johannes.zauner@tum.de", role = c("aut", "cre"),
@@ -10,7 +10,7 @@ Authors@R: c(
       comment = c(ORCID = "0000-0002-8572-9268")),
     person("European Partnership on Metrology", role = "fnd", comment = "The project (22NRM05 MeLiDos) has received funding from the European Partnership on Metrology, co-financed by the European Union's Horizon Europe Research and Innovation Programme, EURAMET, and the Participating States. Views and opinions expressed are those of the authors and do not necessarily reflect those of the European Union or EURAMET."),
     person("Translational Sensory and Circadian Neuroscience Unit (MPS/TUM/TUMCREATE)", comment = c(URL = "www.tscnlab.org"), role = "cph"))
-Description: In the MeLiDos field study, personal light exposure data were collected in 9 sites, 7 countries, and 196 participants. Data originate from wearable devices collecting personal light exposure at the eye level, chest, and the wrist. Questionnaires were collected via REDCap and contain demographic information as well as chronotype, current conditions, sleep diaries, wear logs, and many more. This package makes loading the data from the respective repositories (<https://github.com/MeLiDosProject>) into R a breeze. It further contains some quality of life functions for label handling and data from REDCap.
+Description: In the MeLiDos field study, personal light exposure data were collected in 9 sites, 7 countries, and 196 participants following the Guidolin et al. (2024) <doi:10.1186/s12889-024-20206-4> protocol. Data originate from wearable devices collecting personal light exposure at the eye level, chest, and the wrist. Questionnaires were collected via REDCap and contain demographic information as well as chronotype, current conditions, sleep diaries, wear logs, and many more. This package makes loading the data from the respective repositories (<https://github.com/MeLiDosProject>) into R a breeze. It further contains some quality of life functions for label handling and data from REDCap.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
