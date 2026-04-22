@@ -353,68 +353,14 @@ character numeric \#\> \#\> \$ok \#\> \[1\] "mctq_nr_workdays"
 "mctq_ready_sleep_work" "mctq_wake_time_work" "mctq_bedtime_free" \#\>
 \[34\] "mctq_ready_sleep_free" "mctq_wake_time_free" "mctq_work_start"
 \#\> \[37\] "mctq_work_end" "record_id" "mctq_reason_spec" \#\>
-coltype_check\$details \|\>
-[gt](https://gt.rstudio.com/reference/gt.html)()
-
-| col                    | expected  | present | actual    | type_ok | issue      |
-|:-----------------------|:----------|:-------:|:----------|:-------:|:-----------|
-| mctq_nr_workdays       | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_fall_sleep_work   | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_get_up_work       | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_fall_sleep_free   | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_get_up_free       | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_work_flex         | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_work_travel       | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_com_to_work_h     | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_com_to_work_min   | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_com_from_work_h   | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_com_from_work_min | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_outdoor_work_h    | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_outdoor_work_min  | numeric   |  TRUE   | character |  FALSE  | wrong_type |
-| mctq_outdoor_free_h    | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_outdoor_free_min  | numeric   |  TRUE   | character |  FALSE  | wrong_type |
-| mctq_stim_cigar        | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_stim_beer         | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_stim_wine         | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_stim_liquor       | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_stim_coffee       | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_stim_tea          | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_stim_caf_drink    | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_stim_sleep_med    | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_nr_cigar          | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_nr_beer           | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_nr_wine           | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_nr_liquor         | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_nr_coffee         | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_nr_tea            | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_nr_caf_drink      | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_nr_sleep_med      | numeric   |  TRUE   | numeric   |  TRUE   | ok         |
-| mctq_regular_work      | logical   |  TRUE   | numeric   |  FALSE  | wrong_type |
-| mctq_alarm_work        | logical   |  TRUE   | numeric   |  FALSE  | wrong_type |
-| mctq_wake_alarm        | logical   |  TRUE   | numeric   |  FALSE  | wrong_type |
-| mctq_alarm_free        | logical   |  TRUE   | numeric   |  FALSE  | wrong_type |
-| mctq_choose_sleep_free | logical   |  TRUE   | numeric   |  FALSE  | wrong_type |
-| mctq_shift_work        | logical   |  TRUE   | numeric   |  FALSE  | wrong_type |
-| mctq_bedtime_work      | time      |  TRUE   | hms       |  TRUE   | ok         |
-| mctq_ready_sleep_work  | time      |  TRUE   | hms       |  TRUE   | ok         |
-| mctq_wake_time_work    | time      |  TRUE   | hms       |  TRUE   | ok         |
-| mctq_bedtime_free      | time      |  TRUE   | hms       |  TRUE   | ok         |
-| mctq_ready_sleep_free  | time      |  TRUE   | hms       |  TRUE   | ok         |
-| mctq_wake_time_free    | time      |  TRUE   | hms       |  TRUE   | ok         |
-| mctq_work_start        | time      |  TRUE   | hms       |  TRUE   | ok         |
-| mctq_work_end          | time      |  TRUE   | hms       |  TRUE   | ok         |
-| record_id              | character |  TRUE   | character |  TRUE   | ok         |
-| mctq_desctext_1        | character |  FALSE  | NA        |  FALSE  | missing    |
-| mctq_sleep_cycle_pic   | character |  FALSE  | NA        |  FALSE  | missing    |
-| mctq_desctext_2        | character |  FALSE  | NA        |  FALSE  | missing    |
-| mctq_desctext_3        | character |  FALSE  | NA        |  FALSE  | missing    |
-| mctq_desctext_4        | character |  FALSE  | NA        |  FALSE  | missing    |
-| mctq_reason            | character |  FALSE  | NA        |  FALSE  | missing    |
-| mctq_reason_spec       | character |  TRUE   | character |  TRUE   | ok         |
-| mctq_desctext_5        | character |  FALSE  | NA        |  FALSE  | missing    |
-| mctq_commute           | character |  FALSE  | NA        |  FALSE  | missing    |
-| mctq_desctext_6        | character |  FALSE  | NA        |  FALSE  | missing    |
-| mctq_outdoor           | character |  FALSE  | NA        |  FALSE  | missing    |
-| mctq_outdoor_work_calc | character |  TRUE   | numeric   |  FALSE  | wrong_type |
-| mctq_outdoor_free_calc | character |  TRUE   | numeric   |  FALSE  | wrong_type |
-| mctq_desctext_7        | character |  FALSE  | NA        |  FALSE  | missing    |
+coltype_check\$details \#\> \# A tibble: 60 × 6 \#\> col expected
+present actual type_ok issue \#\> \<chr\> \<chr\> \<lgl\> \<chr\>
+\<lgl\> \<chr\> \#\> 1 mctq_nr_workdays numeric TRUE numeric TRUE ok
+\#\> 2 mctq_fall_sleep_work numeric TRUE numeric TRUE ok \#\> 3
+mctq_get_up_work numeric TRUE numeric TRUE ok \#\> 4
+mctq_fall_sleep_free numeric TRUE numeric TRUE ok \#\> 5
+mctq_get_up_free numeric TRUE numeric TRUE ok \#\> 6 mctq_work_flex
+numeric TRUE numeric TRUE ok \#\> 7 mctq_work_travel numeric TRUE
+numeric TRUE ok \#\> 8 mctq_com_to_work_h numeric TRUE numeric TRUE ok
+\#\> 9 mctq_com_to_work_min numeric TRUE numeric TRUE ok \#\> 10
+mctq_com_from_work_h numeric TRUE numeric TRUE ok \#\> \# ℹ 50 more rows

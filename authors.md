@@ -26,13 +26,13 @@ Source:
 [`DESCRIPTION`](https://github.com/MeLiDosProject/melidosData/blob/main/DESCRIPTION)
 
 Zauner J, Spitschan M (2026). *melidosData: Load Data from the MeLiDos
-Field Study*. R package version 1.0.4,
+Field Study*. R package version 1.0.6,
 <https://melidosproject.github.io/melidosData/>.
 
     @Manual{,
       title = {melidosData: Load Data from the MeLiDos Field Study},
       author = {Johannes Zauner and Manuel Spitschan},
       year = {2026},
-      note = {R package version 1.0.4},
+      note = {R package version 1.0.6},
       url = {https://melidosproject.github.io/melidosData/},
     }

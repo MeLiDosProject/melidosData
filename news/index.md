@@ -1,5 +1,18 @@
 # Changelog
 
+## melidosData 1.0.6
+
+CRAN release: 2026-04-22
+
+- DESCRIPTION updated to conform to CRAN requirements
+
+## melidosData 1.0.5
+
+- [`load_data()`](https://melidosproject.github.io/melidosData/reference/load_data.md):
+  Example was simplified so it does not require a *dontrun* exception
+
+- DESCRIPTION now contains a reference to the Guidolin et al. protocol
+
 ## melidosData 1.0.4
 
 - [`load_data()`](https://melidosproject.github.io/melidosData/reference/load_data.md):
