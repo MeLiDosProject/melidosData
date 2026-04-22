@@ -1,6 +1,11 @@
+# melidosData 1.0.6
+
+* DESCRIPTION updated to conform to CRAN requirements
+
 # melidosData 1.0.5
 
 * `load_data()`: Example was simplified so it does not require a *dontrun* exception
+
 * DESCRIPTION now contains a reference to the Guidolin et al. protocol
 
 # melidosData 1.0.4
