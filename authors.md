@@ -23,7 +23,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/MeLiDosProject/melidosData/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/MeLiDosProject/melidosData/blob/v1.0.6/DESCRIPTION)
 
 Zauner J, Spitschan M (2026). *melidosData: Load Data from the MeLiDos
 Field Study*. R package version 1.0.6,
