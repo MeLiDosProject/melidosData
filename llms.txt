@@ -24,17 +24,17 @@ assessment, diaries, and logs, extensive auxiliary data are available.
 
 Measurement sites in the MeLiDos project
 
-| Institution (site Abbr.) | City     | Country         | Repository                                                                                             | DOI                     |
-|--------------------------|----------|-----------------|--------------------------------------------------------------------------------------------------------|-------------------------|
-| RISE                     | Borås    | Sweden          | [NilssonTengelinEtAl_Dataset_2026](https://github.com/MeLiDosProject/NilssonTengelinEtAl_Dataset_2026) | 10.5281/zenodo.18925834 |
-| THUAS                    | Delft    | The Netherlands | [AertsEtAl_Dataset_2025](https://github.com/MeLiDosProject/AertsEtAl_Dataset_2025)                     | 10.5281/zenodo.17979893 |
-| BAUA                     | Dortmund | Germany         | [BroszioEtAl_Dataset_2025](https://github.com/MeLiDosProject/BroszioEtAl_Dataset_2025)                 | 10.5281/zenodo.18111232 |
-| MPI                      | Tübingen | Germany         | [GuidolinEtAl_Dataset_2025](https://github.com/MeLiDosProject/GuidolinEtAl_Dataset_2025)               | 10.5281/zenodo.16895188 |
-| TUM                      | Munich   | Germany         | [HildenEtAl_Dataset_2025](https://github.com/MeLiDosProject/HildenEtAl_Dataset_2025)                   | 10.5281/zenodo.16893901 |
-| FUSPCEU                  | Madrid   | Spain           | [BaezaEtAl_Dataset_2025](https://github.com/MeLiDosProject/BaezaEtAl_Dataset_2025)                     | 10.5281/zenodo.16834951 |
-| IZTECH                   | Izmir    | Turkey          | [DidikogluEtAl_Dataset_2025](https://github.com/MeLiDosProject/DidikogluEtAl_Dataset_2025)             | 10.5281/zenodo.16568109 |
-| UCR                      | San José | Costa Rica      | [Sancho-SalasEtAl_Dataset_2025](https://github.com/MeLiDosProject/Sancho-SalasEtAl_Dataset_2025)       | 10.5281/zenodo.17289456 |
-| KNUST                    | Kumasi   | Ghana           | [AkuffoEtAl_Dataset_2025](https://github.com/MeLiDosProject/AkuffoEtAl_Dataset_2025)                   | 10.5281/zenodo.15576731 |
+| Institution (site Abbr.) | City | Country | Repository | DOI |
+|----|----|----|----|----|
+| RISE | Borås | Sweden | [NilssonTengelinEtAl_Dataset_2026](https://github.com/MeLiDosProject/NilssonTengelinEtAl_Dataset_2026) | 10.5281/zenodo.18925834 |
+| THUAS | Delft | The Netherlands | [AertsEtAl_Dataset_2025](https://github.com/MeLiDosProject/AertsEtAl_Dataset_2025) | 10.5281/zenodo.17979893 |
+| BAUA | Dortmund | Germany | [BroszioEtAl_Dataset_2025](https://github.com/MeLiDosProject/BroszioEtAl_Dataset_2025) | 10.5281/zenodo.18111232 |
+| MPI | Tübingen | Germany | [GuidolinEtAl_Dataset_2025](https://github.com/MeLiDosProject/GuidolinEtAl_Dataset_2025) | 10.5281/zenodo.16895188 |
+| TUM | Munich | Germany | [HildenEtAl_Dataset_2025](https://github.com/MeLiDosProject/HildenEtAl_Dataset_2025) | 10.5281/zenodo.16893901 |
+| FUSPCEU | Madrid | Spain | [BaezaEtAl_Dataset_2025](https://github.com/MeLiDosProject/BaezaEtAl_Dataset_2025) | 10.5281/zenodo.16834951 |
+| IZTECH | Izmir | Turkey | [DidikogluEtAl_Dataset_2025](https://github.com/MeLiDosProject/DidikogluEtAl_Dataset_2025) | 10.5281/zenodo.16568109 |
+| UCR | San José | Costa Rica | [Sancho-SalasEtAl_Dataset_2025](https://github.com/MeLiDosProject/Sancho-SalasEtAl_Dataset_2025) | 10.5281/zenodo.17289456 |
+| KNUST | Kumasi | Ghana | [AkuffoEtAl_Dataset_2025](https://github.com/MeLiDosProject/AkuffoEtAl_Dataset_2025) | 10.5281/zenodo.15576731 |
 
 Overview of the available sites in the package
 
@@ -48,12 +48,14 @@ Field study protocol
 You can install the CRAN version of melidosData with:
 
 ``` r
+
 install.packages("melidosData")
 ```
 
 You can install the development version of melidosData from GitHub with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("MeLiDosProject/melidosData")
 ```
@@ -61,6 +63,7 @@ pak::pak("MeLiDosProject/melidosData")
 ## Main workflow example
 
 ``` r
+
 library(melidosData)
 library(LightLogR) #for visualization
 library(dplyr) #for data manipulation
@@ -156,6 +159,7 @@ The nine sites are centered on universities and research institutes. The
 packages contains relevant metadata for these sites:
 
 ``` r
+
 melidos_countries
 #>              RISE           FUSPCEU              BAUA               TUM 
 #>          "Sweden"           "Spain"         "Germany"         "Germany" 
@@ -217,6 +221,7 @@ the [project page](https://github.com/MeLiDosProject).
 ## Mini vignette: REDCap helper workflow
 
 ``` r
+
 # 1) load dictionary and clean labels
 codebook_path <- system.file("ext", "DataDictionary_sleepdiary.csv", package = "melidosData")
 codebook <- utils::read.csv(codebook_path, check.names = FALSE)
