@@ -7,7 +7,12 @@ into one tibble and keeps site provenance in a `site` column.
 ## Usage
 
 ``` r
-flatten_data(melidos_data, tz = "UTC", label_from = 1)
+flatten_data(
+  melidos_data,
+  tz = "UTC",
+  label_from = 1,
+  time_mode = c("clock", "instant")
+)
 ```
 
 ## Arguments
@@ -20,11 +25,16 @@ flatten_data(melidos_data, tz = "UTC", label_from = 1)
 
 - tz:
 
-  Time zone to enforce for all `POSIXct` columns.
+  Output time zone for all `POSIXct` columns.
 
 - label_from:
 
-  indice of the dataset that is used to apply labels to the output.
+  Index of the dataset used to apply labels to the output.
+
+- time_mode:
+
+  Either `"clock"` (the backward-compatible default) or `"instant"`. See
+  Details.
 
 ## Value
 
@@ -32,9 +42,16 @@ A tibble with all rows stacked and a `site` column.
 
 ## Details
 
-If date-time columns are present (`POSIXct`), their timezone is
-overwritten using
+The default preserves local clock readings using
 [`lubridate::force_tz()`](https://lubridate.tidyverse.org/reference/force_tz.html).
+This changes the represented instants and is intended for comparisons by
+local clock time. Use `time_mode = "instant"` to preserve absolute
+instants with
+[`lubridate::with_tz()`](https://lubridate.tidyverse.org/reference/with_tz.html),
+for example when aligning devices or diaries. Neither mode repairs
+incorrectly parsed source timestamps. In clock mode, readings skipped by
+a daylight-saving transition in the output time zone become `NA`. Use
+`tz = "UTC"` for clock comparisons without daylight-saving gaps.
 
 ## Examples
 

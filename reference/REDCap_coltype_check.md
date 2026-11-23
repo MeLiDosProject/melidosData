@@ -8,7 +8,8 @@ these to classes in `data`.
 ``` r
 REDCap_coltype_check(
   codebook,
-  indicator_POSIXct = "datetime_dmy",
+  indicator_POSIXct = c("datetime_dmy", "datetime_mdy", "datetime_ymd",
+    "datetime_seconds_dmy", "datetime_seconds_mdy", "datetime_seconds_ymd"),
   indicator_date = "Date",
   indicator_time = "time",
   indicator_logical = "yesno",
@@ -18,7 +19,8 @@ REDCap_coltype_check(
   name_col = `Variable / Field Name`,
   type_col = `Field Type`,
   val_col = `Text Validation Type OR Show Slider Number`,
-  data
+  data,
+  indicator_date.val_col = c("date_dmy", "date_mdy", "date_ymd")
 )
 ```
 
@@ -71,6 +73,11 @@ REDCap_coltype_check(
 - data:
 
   Data frame to validate.
+
+- indicator_date.val_col:
+
+  Validation codes identifying calendar dates. Explicit validation codes
+  take precedence over the label-based fallback.
 
 ## Value
 

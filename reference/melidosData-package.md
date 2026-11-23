@@ -23,6 +23,9 @@ Useful links:
 
 Authors:
 
+- Johannes Zauner <johannes.zauner@tum.de>
+  ([ORCID](https://orcid.org/0000-0003-2171-4566))
+
 - Manuel Spitschan <manuel.spitschan@tum.de>
   ([ORCID](https://orcid.org/0000-0002-8572-9268))
 
@@ -36,4 +39,4 @@ Other contributors:
   reflect those of the European Union or EURAMET.) \[funder\]
 
 - Translational Sensory and Circadian Neuroscience Unit
-  (MPS/TUM/TUMCREATE) (www.tscnlab.org) \[copyright holder\]
+  (MPS/TUM/TUMCREATE) (URL: www.tscnlab.org) \[copyright holder\]

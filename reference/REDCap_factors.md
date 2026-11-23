@@ -1,7 +1,13 @@
 # Convert REDCap choice fields to factors
 
 Applies factor levels and labels using REDCap dictionary definitions for
-`radio` and `checkbox` fields (configurable via `radio_value`).
+`radio` and `checkbox` fields (configurable via `radio_value`). Expanded
+checkbox columns named `field___code` or `field_code` are kept separate
+and converted from 0/1 (or logical) to `Unchecked`/`Checked` factors.
+Their `checkbox_choice` attribute records the dictionary choice. Missing
+values remain missing; invalid binary values raise an error. An existing
+unexpanded choice column retains the legacy radio-style conversion. A
+single factor cannot represent several checkbox selections.
 
 ## Usage
 
@@ -66,7 +72,6 @@ REDCap_factors(
   data = REDCap_example_chronotype,
   lookup = dict
 )
-#> Warning: Variables provided but not in `data`: mctq_reason
 
 chronotype_with_factors$mctq_work_travel
 #>  [1] not within an enclosed vehicle (e.g. on foot, by bike). 

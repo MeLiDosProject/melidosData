@@ -15,7 +15,9 @@ load_data(
     "currentconditions", "exercisediary", "experiencelog", "lightexposurediary",
     "sleepdiaries", "wearlog", "wellbeingdiary"),
   site = c("all", "BAUA", "FUSPCEU", "IZTECH", "KNUST", "MPI", "RISE", "THUAS", "TUM",
-    "UCR")
+    "UCR"),
+  ref = "main",
+  on_failure = c("error", "warn")
 )
 ```
 
@@ -33,10 +35,29 @@ https://github.com/MeLiDosProject
 
   Site(s) to load. Use `"all"` for all available sites.
 
+- ref:
+
+  Git revision to download: a branch, tag, or commit SHA. Supply one
+  revision for all sites, or a named character vector with one revision
+  per selected site. Use full commit SHAs for reproducible inputs. The
+  default `"main"` follows the current repository contents.
+
+- on_failure:
+
+  Whether a failed download, missing object, or invalid object should
+  stop (`"error"`, the default) or warn and retain a `NULL` entry
+  (`"warn"`). Expected unavailable MPI modalities are still omitted.
+
 ## Value
 
-A data frame when one site is selected, or a `melidos_data` list for
-multiple sites.
+A data frame when one site is loaded successfully, or a `melidos_data`
+list for multiple sites. With `on_failure = "warn"`, a failed single
+site returns a one-element `melidos_data` list containing `NULL`. If all
+selected sites are unavailable for the modality, an empty `melidos_data`
+list is returned. The `melidos_sources` attribute records each attempted
+site's repository, revision, URL, expected object, and load status.
+Branch names are recorded as requested and are not resolved to immutable
+commits.
 
 ## Details
 
@@ -49,26 +70,15 @@ See the README of the package for a description of sites and modalities.
 ## Examples
 
 ``` r
+if (FALSE) { # interactive()
 # load one questionnaire modality for two sites
 sleep_all <- load_data("sleepdiaries", site = c("TUM", "RISE"))
 
 # flatten to a single tibble with a site column
 sleep_flat <- flatten_data(sleep_all, tz = "UTC")
-#> Warning: Not all labels across all sites were identical. Labels used from: TUM; sites that have other labels: RISE
 head(sleep_flat)
-#> # A tibble: 6 × 15
-#>   site  Id       bedtime             sleepprep           wake               
-#>   <chr> <chr>    <dttm>              <dttm>              <dttm>             
-#> 1 TUM   TUM_S001 2024-05-14 00:00:00 2024-05-14 00:15:00 2024-05-14 09:38:00
-#> 2 TUM   TUM_S001 2024-05-15 00:15:00 2024-05-15 00:15:00 2024-05-15 08:00:00
-#> 3 TUM   TUM_S001 2024-05-16 00:30:00 2024-05-16 00:30:00 2024-05-16 10:00:00
-#> 4 TUM   TUM_S001 2024-05-17 01:00:00 2024-05-17 01:15:00 2024-05-17 09:30:00
-#> 5 TUM   TUM_S001 2024-05-18 00:20:00 2024-05-18 00:30:00 2024-05-18 09:30:00
-#> 6 TUM   TUM_S001 2024-05-19 05:15:00 2024-05-19 05:30:00 2024-05-19 11:30:00
-#> # ℹ 10 more variables: out_ofbed <dttm>, sleepdelay <dbl>, awakenings <dbl>,
-#> #   awake_duration <dbl>, sleepquality <fct>, daytype2 <fct>, comments <chr>,
-#> #   sleep <dttm>, sleep_duration <drtn>, comments_english <chr>
 
 # load one site only (returns a data frame)
 sleep_tum <- load_data("sleepdiaries", site = "TUM")
+}
 ```
