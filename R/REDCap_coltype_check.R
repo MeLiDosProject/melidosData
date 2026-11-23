@@ -15,6 +15,8 @@
 #' @param type_col Unquoted codebook field-type column.
 #' @param val_col Unquoted codebook validation/type-hint column.
 #' @param data Data frame to validate.
+#' @param indicator_date.val_col Validation codes identifying calendar dates.
+#'   Explicit validation codes take precedence over the label-based fallback.
 #'
 #' @return A list with `ok`, `summary`, and per-column `details`.
 #' @export
@@ -43,19 +45,28 @@
 #' coltype_check$summary
 #' coltype_check$details
 
-
-REDCap_coltype_check <- function(codebook,
-                                 indicator_POSIXct = "datetime_dmy",
-                                 indicator_date = "Date",
-                                 indicator_time = "time",
-                                 indicator_logical = "yesno",
-                                 indicator_numeric.val_col = c("number", "integer"),
-                                 indicator_numeric.type_col = c("radio", "dropdown"),
-                                 label_col = `Field Label`,
-                                 name_col = `Variable / Field Name`,
-                                 type_col = `Field Type`,
-                                 val_col = `Text Validation Type OR Show Slider Number`,
-                                 data) {
+REDCap_coltype_check <- function(
+  codebook,
+  indicator_POSIXct = c(
+    "datetime_dmy",
+    "datetime_mdy",
+    "datetime_ymd",
+    "datetime_seconds_dmy",
+    "datetime_seconds_mdy",
+    "datetime_seconds_ymd"
+  ),
+  indicator_date = "Date",
+  indicator_time = "time",
+  indicator_logical = "yesno",
+  indicator_numeric.val_col = c("number", "integer"),
+  indicator_numeric.type_col = c("radio", "dropdown"),
+  label_col = `Field Label`,
+  name_col = `Variable / Field Name`,
+  type_col = `Field Type`,
+  val_col = `Text Validation Type OR Show Slider Number`,
+  data,
+  indicator_date.val_col = c("date_dmy", "date_mdy", "date_ymd")
+) {
   should_POSIXct <-
     codebook |>
     dplyr::filter({{ val_col }} %in% indicator_POSIXct) |>
@@ -73,7 +84,8 @@ REDCap_coltype_check <- function(codebook,
   should_numeric <-
     codebook |>
     dplyr::filter(
-      {{ val_col }} %in% indicator_numeric.val_col |
+      {{ val_col }} %in%
+        indicator_numeric.val_col |
         {{ type_col }} %in% indicator_numeric.type_col
     ) |>
     dplyr::pull({{ name_col }}) |>
@@ -81,10 +93,20 @@ REDCap_coltype_check <- function(codebook,
 
   should_date <-
     codebook |>
-    dplyr::filter(stringr::str_detect({{ label_col }}, indicator_date)) |>
+    dplyr::filter(
+      {{ val_col }} %in%
+        indicator_date.val_col |
+        ((is.na({{ val_col }}) | {{ val_col }} == "") &
+          !{{ name_col }} %in% c("startdate", "enddate") &
+          stringr::str_detect({{ label_col }}, indicator_date))
+    ) |>
     dplyr::pull({{ name_col }}) |>
     unique() |>
-    setdiff(c("startdate", "enddate"))
+    setdiff(c(
+      should_POSIXct,
+      should_numeric,
+      should_logical
+    ))
 
   should_time <-
     codebook |>
@@ -99,13 +121,19 @@ REDCap_coltype_check <- function(codebook,
     setdiff(
       unique(codebook |> dplyr::pull({{ name_col }})),
       c(
-        should_numeric, should_POSIXct, should_logical,
-        should_date, should_time, "startdate", "enddate"
+        should_numeric,
+        should_POSIXct,
+        should_logical,
+        should_date,
+        should_time,
+        "startdate",
+        "enddate"
       )
     )
 
   expected_map <- tibble::tribble(
-    ~col, ~expected,
+    ~col,
+    ~expected,
     !!!c(
       rbind(should_POSIXct, rep("POSIXct", length(should_POSIXct))),
       rbind(should_numeric, rep("numeric", length(should_numeric))),

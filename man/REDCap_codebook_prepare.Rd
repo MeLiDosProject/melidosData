@@ -16,7 +16,7 @@ REDCap_codebook_prepare(
 \item{codebook}{A REDCap data dictionary as a data frame.}
 
 \item{strings_to_ignore}{A regular expression used in
-\code{\link[stringr:str_remove]{stringr::str_remove_all()}} to remove formatting fragments from field labels.}
+\code{\link[stringr:str_remove_all]{stringr::str_remove_all()}} to remove formatting fragments from field labels.}
 
 \item{form.filter}{Optional character vector of REDCap form names to keep.}
 

@@ -25,13 +25,14 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Johannes Zauner \email{johannes.zauner@tum.de} (\href{https://orcid.org/0000-0003-2171-4566}{ORCID})
   \item Manuel Spitschan \email{manuel.spitschan@tum.de} (\href{https://orcid.org/0000-0002-8572-9268}{ORCID})
 }
 
 Other contributors:
 \itemize{
   \item European Partnership on Metrology (The project (22NRM05 MeLiDos) has received funding from the European Partnership on Metrology, co-financed by the European Union's Horizon Europe Research and Innovation Programme, EURAMET, and the Participating States. Views and opinions expressed are those of the authors and do not necessarily reflect those of the European Union or EURAMET.) [funder]
-  \item Translational Sensory and Circadian Neuroscience Unit (MPS/TUM/TUMCREATE) (www.tscnlab.org) [copyright holder]
+  \item Translational Sensory and Circadian Neuroscience Unit (MPS/TUM/TUMCREATE) (URL: www.tscnlab.org) [copyright holder]
 }
 
 }

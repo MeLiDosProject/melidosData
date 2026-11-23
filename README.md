@@ -140,11 +140,17 @@ in `load_data()`.
 - *health*: Lifestyle and health
 - *demographics*: Demographics
 - *chronotype*: Chronotype (MCTQ, MEQ)
-- *accectability*: Light glasses acceptability
+- *acceptability*: Light glasses acceptability
 - *ase*: Sleep environment (ASE)
 - *evaluation*: Evaluation of study by participants
 - *leba*: Light exposure behavior (LEBA)
 - *vlsq8*: Light sensitivity (VLSQ-8)
+
+### Recording metadata:
+
+- *trial_times*: Participant-level trial boundaries. Device-specific
+  recording windows can differ; use the relevant site’s device metadata
+  when trimming a particular sensor stream.
 
 ### Diaries (morning or evening):
 
@@ -161,6 +167,37 @@ in `load_data()`.
 ### Ecological momentary assessment (4 times per day):
 
 - *currentconditions*: Current light, mood, and alertness
+
+## Reproducible loading and time alignment
+
+`load_data()` follows `main` by default. Supply `ref` as a full commit
+SHA, or as a named character vector of SHAs by site, to use fixed source
+versions. The `melidos_sources` attribute records the requested
+repositories, revisions, URLs, object names, and load status. A branch
+name is not an immutable version.
+
+Failed downloads or missing objects now stop with an informative error.
+`on_failure = "warn"` retains failed sites as `NULL` for inspection;
+`flatten_data()` rejects these entries rather than silently reducing the
+sample. For a failed single site, the result is a one-element
+`melidos_data` list so that source metadata remain available. MPI’s
+unavailable health, chest and wrist modalities remain explicitly
+omitted.
+
+`flatten_data()` defaults to `time_mode = "clock"`, preserving each
+site’s local clock readings while changing the represented instants. For
+device or diary alignment on an absolute time axis, use
+`time_mode = "instant"`; this preserves instants and expresses them in
+the requested `tz`. Keep site-specific time zones available when
+deriving local dates, sleep windows or clock-time summaries. For clock
+comparisons, `tz = "UTC"` avoids daylight-saving gaps that can otherwise
+turn nonexistent local times into `NA`.
+
+Expanded REDCap checkbox columns remain separate in `REDCap_factors()`.
+Both `field___code` and `field_code` names are supported, with
+`Unchecked` and `Checked` factor levels and a `checkbox_choice`
+attribute for the option label. This preserves simultaneous selections;
+a single choice factor cannot do so.
 
 ## Sites
 
@@ -315,14 +352,14 @@ sleep_labelled$actual_sleep |> attr("label") #new label
 ## About the MeLiDos project
 
 [*MeLiDos*](https://www.melidos.eu) is a joint,
-[EURAMET](https://www.euramet.org)-funded project involving sixteen
+[EURAMET](https://www.euramet.org/)-funded project involving sixteen
 partners across Europe, aimed at developing a metrology and a standard
 workflow for wearable light logger data and optical radiation
 dosimeters. Its primary contributions towards fostering FAIR data
 include the development of a common file format, robust metadata
 descriptors, and an accompanying open-source software ecosystem.
 
-[<img src="man/figures/Metrology_Partnership_LOGO.jpg" width="282" />](https://www.euramet.org)
+[<img src="man/figures/Metrology_Partnership_LOGO.jpg" width="282" />](https://www.euramet.org/)
 <img src="man/figures/Co-Funded-By-the-EU.png" width="288" />
 
 The project (22NRM05 MeLiDos) has received funding from the European

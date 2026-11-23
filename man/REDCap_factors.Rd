@@ -37,6 +37,12 @@ REDCap_factors(
 \description{
 Applies factor levels and labels using REDCap dictionary definitions for
 \code{radio} and \code{checkbox} fields (configurable via \code{radio_value}).
+Expanded checkbox columns named \code{field___code} or \code{field_code} are kept
+separate and converted from 0/1 (or logical) to \code{Unchecked}/\code{Checked}
+factors. Their \code{checkbox_choice} attribute records the dictionary choice.
+Missing values remain missing; invalid binary values raise an error.
+An existing unexpanded choice column retains the legacy radio-style
+conversion. A single factor cannot represent several checkbox selections.
 }
 \examples{
 dict_path <- system.file("ext", "DataDictionary_chronotype.csv",

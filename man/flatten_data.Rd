@@ -4,14 +4,22 @@
 \alias{flatten_data}
 \title{Flatten multi-site MeLiDos data into one table}
 \usage{
-flatten_data(melidos_data, tz = "UTC", label_from = 1)
+flatten_data(
+  melidos_data,
+  tz = "UTC",
+  label_from = 1,
+  time_mode = c("clock", "instant")
+)
 }
 \arguments{
 \item{melidos_data}{A list returned by \code{\link[=load_data]{load_data()}} for multiple sites.}
 
-\item{tz}{Time zone to enforce for all \code{POSIXct} columns.}
+\item{tz}{Output time zone for all \code{POSIXct} columns.}
 
-\item{label_from}{indice of the dataset that is used to apply labels to the output.}
+\item{label_from}{Index of the dataset used to apply labels to the output.}
+
+\item{time_mode}{Either \code{"clock"} (the backward-compatible default) or
+\code{"instant"}. See Details.}
 }
 \value{
 A tibble with all rows stacked and a \code{site} column.
@@ -21,8 +29,14 @@ A tibble with all rows stacked and a \code{site} column.
 tibble and keeps site provenance in a \code{site} column.
 }
 \details{
-If date-time columns are present (\code{POSIXct}), their timezone is overwritten
-using \code{\link[lubridate:force_tz]{lubridate::force_tz()}}.
+The default preserves local clock readings using \code{\link[lubridate:force_tz]{lubridate::force_tz()}}.
+This changes the represented instants and is intended for comparisons by
+local clock time. Use \code{time_mode = "instant"} to preserve absolute instants
+with \code{\link[lubridate:with_tz]{lubridate::with_tz()}}, for example when aligning devices or diaries.
+Neither mode repairs incorrectly parsed source timestamps.
+In clock mode, readings skipped by a daylight-saving transition in the
+output time zone become \code{NA}. Use \code{tz = "UTC"} for clock comparisons without
+daylight-saving gaps.
 }
 \examples{
 example_multi_site <- structure(

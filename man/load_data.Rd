@@ -14,17 +14,33 @@ load_data(
     "currentconditions", "exercisediary", "experiencelog", "lightexposurediary",
     "sleepdiaries", "wearlog", "wellbeingdiary"),
   site = c("all", "BAUA", "FUSPCEU", "IZTECH", "KNUST", "MPI", "RISE", "THUAS", "TUM",
-    "UCR")
+    "UCR"),
+  ref = "main",
+  on_failure = c("error", "warn")
 )
 }
 \arguments{
 \item{modality}{Dataset to load.}
 
 \item{site}{Site(s) to load. Use \code{"all"} for all available sites.}
+
+\item{ref}{Git revision to download: a branch, tag, or commit SHA. Supply one
+revision for all sites, or a named character vector with one revision per
+selected site. Use full commit SHAs for reproducible inputs. The default
+\code{"main"} follows the current repository contents.}
+
+\item{on_failure}{Whether a failed download, missing object, or invalid
+object should stop (\code{"error"}, the default) or warn and retain a \code{NULL}
+entry (\code{"warn"}). Expected unavailable MPI modalities are still omitted.}
 }
 \value{
-A data frame when one site is selected, or a \code{melidos_data} list for multiple
-sites.
+A data frame when one site is loaded successfully, or a \code{melidos_data} list
+for multiple sites. With \code{on_failure = "warn"}, a failed single site returns
+a one-element \code{melidos_data} list containing \code{NULL}. If all selected sites
+are unavailable for the modality, an empty \code{melidos_data} list is returned.
+The \code{melidos_sources} attribute records each attempted site's
+repository, revision, URL, expected object, and load status. Branch names
+are recorded as requested and are not resolved to immutable commits.
 }
 \description{
 \code{load_data()} is the main entry point of the package. It downloads one
@@ -38,6 +54,7 @@ Use \code{\link[=flatten_data]{flatten_data()}} to stack multi-site results into
 See the README of the package for a description of sites and modalities.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # load one questionnaire modality for two sites
 sleep_all <- load_data("sleepdiaries", site = c("TUM", "RISE"))
 
@@ -47,4 +64,5 @@ head(sleep_flat)
 
 # load one site only (returns a data frame)
 sleep_tum <- load_data("sleepdiaries", site = "TUM")
+\dontshow{\}) # examplesIf}
 }
